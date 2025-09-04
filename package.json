@@ -23,7 +23,10 @@
   },
   "homepage": "https://github.com/NithinKS007/Blog-Platform-Micro-Services#readme",
   "devDependencies": {
-    "lerna": "^8.2.3"
+    "@types/node": "^24.3.0",
+    "lerna": "^8.2.3",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.9.2"
   },
   "dependencies": {
     "abbrev": "^2.0.0",
@@ -380,7 +383,6 @@
     "tuf-js": "^2.2.1",
     "type-fest": "^0.21.3",
     "typedarray": "^0.0.6",
-    "typescript": "^5.9.2",
     "uglify-js": "^3.19.3",
     "unique-filename": "^3.0.0",
     "unique-slug": "^4.0.0",
