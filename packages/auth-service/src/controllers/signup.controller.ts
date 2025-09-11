@@ -1,8 +1,18 @@
 import { Request, Response } from "express";
-import { IBaseController } from "../interfaces/interfaces";
+import { IAuthService, IBaseController } from "../interfaces/interfaces";
+import { inject, injectable } from "inversify";
+import { TYPES } from "../di/types";
+import { sendResponse } from "@blog-platform-micro-services/common";
 
-export class SignUpController implements IBaseController{
-    handle(request: Request, response: Response): Promise<void> {
-        
-    }
+@injectable()
+export class SignUpController implements IBaseController {
+  constructor(
+    @inject(TYPES.AuthService) private readonly authService: IAuthService
+  ) {}
+  async handle(req: Request, res: Response): Promise<void> {
+    const data = req.body;
+    console.log("req", data);
+    const result = await this.authService.create(data);
+    sendResponse(res, 201, result, "User created successfully");
+  }
 }

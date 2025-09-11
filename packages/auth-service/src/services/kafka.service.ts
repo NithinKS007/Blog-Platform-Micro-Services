@@ -4,25 +4,27 @@ import {
   MessageHandler,
   PublishMessageParams,
 } from "../interfaces/interfaces";
-import {
-  Consumer,
-  EachMessagePayload,
-  Producer,
-  ProducerRecord,
-  Message,
-} from "kafkajs";
+import { EachMessagePayload, ProducerRecord, Message } from "kafkajs";
+import { GROUP_ID, kafkaConnect } from "../config/kafka.config";
 
 @injectable()
 export class KafkaService implements IMessageService {
-  constructor(
-    private readonly producer: Producer,
-    private readonly consumer: Consumer
-  ) {}
+  private producer;
+  private consumer;
+  constructor() {
+    if (!GROUP_ID || typeof GROUP_ID !== "string") {
+      throw new Error("Kafka group ID is required and must be a string.");
+    }
+    this.producer = kafkaConnect.producer();
+    this.consumer = kafkaConnect.consumer({ groupId: GROUP_ID });
+  }
   async connectProducer(): Promise<void> {
     await this.producer.connect();
+    console.log(`[Kafka] Producer connected`);
   }
   async connectConsumer(): Promise<void> {
     await this.consumer.connect();
+    console.log(`[Kafka] Consumer connected (groupId=${GROUP_ID})`);
   }
 
   async publishMessage<T>(params: PublishMessageParams<T>): Promise<void> {
@@ -36,11 +38,11 @@ export class KafkaService implements IMessageService {
     };
 
     await this.producer.send(record);
+    console.log(`[Kafka] Published to ${topic}: ${JSON.stringify(message)}`);
   }
 
   async consumeMessages<T>(
     topic: string,
-    groupId: string,
     handler: MessageHandler<T>
   ): Promise<void> {
     await this.consumer.subscribe({ topic, fromBeginning: false });
@@ -61,5 +63,6 @@ export class KafkaService implements IMessageService {
         }
       },
     });
+    console.log(`[Kafka] Subscribed to topic: ${topic}`);
   }
 }

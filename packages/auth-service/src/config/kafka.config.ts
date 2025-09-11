@@ -1,25 +1,32 @@
 import { Kafka } from "kafkajs";
 import dotenv from "dotenv";
-import { KafkaConfig } from "../interfaces/interfaces";
+
 dotenv.config();
 
-export const CLIENT_ID = process.env.KAFKA_CLIENT_ID;
-export const GROUP_ID = process.env.KAFKA_GROUP_ID;
-export const BROKERS = process.env.KAFKA_BROKERS?.split(",").map(b => b.trim()) ?? [];
+const CLIENT_ID = process.env.KAFKA_CLIENT_ID;
+const GROUP_ID = process.env.KAFKA_GROUP_ID;
+const BROKERS = process.env.KAFKA_BROKERS?.split(",").map((b) => b.trim());
 
-if (!BROKERS.length) {
-  throw new Error("Kafka brokers are required and must be a comma-separated string.");
+if (!BROKERS) {
+  throw new Error("Kafka brokers are required (KAFKA_BROKERS in .env).");
 }
 
 if (!CLIENT_ID) {
-  throw new Error("Kafka client ID is required.");
+  throw new Error("Kafka client ID is required (KAFKA_CLIENT_ID in .env).");
 }
 
-const kafkaConfig: KafkaConfig= {
+if (!GROUP_ID) {
+  throw new Error("Kafka group ID is required (KAFKA_GROUP_ID in .env).");
+}
+
+const kafkaConnect = new Kafka({
   clientId: CLIENT_ID,
   brokers: BROKERS,
-};
+});
 
-const kafka = new Kafka(kafkaConfig);
-
-export { kafka };
+export {
+    kafkaConnect,
+    CLIENT_ID,
+    GROUP_ID,
+    BROKERS
+}

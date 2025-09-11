@@ -17,15 +17,11 @@ export interface IJwtService {
 }
 
 export interface IAuthService {
-  create(data: { name: string; email: string; password: string }): Promise<string>;
+  create(data: { name: string; email: string; password: string }): Promise<void>;
 }
 
 export interface IMessageService {
-  consumeMessages<T>(
-    topic: string,
-    groupId: string,
-    handler: MessageHandler<T>
-  ): Promise<void>;
+  consumeMessages<T>(topic: string, handler: MessageHandler<T>): Promise<void>;
   publishMessage<T>(params: PublishMessageParams<T>): Promise<void>;
   connectProducer(): Promise<void>;
   connectConsumer(): Promise<void>;
