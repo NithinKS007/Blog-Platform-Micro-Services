@@ -1,8 +1,7 @@
 // import { Request, Response, NextFunction } from "express";
 // import { AuthStatus, JwtStatus } from "@shared/constants/index.constants";
 // import { JwtPayload } from "jsonwebtoken";
-// import { ForbiddenError, UnauthorizedError } from "./error.middleware";
-// import { checkUserBlockStatusUseCase, tokenUseCase } from "@di/container-resolver";
+// import { ForbiddenError, UnauthorizedError } from "./error.handling.middleware";
 
 // export const authenticate = async (
 //   req: Request,

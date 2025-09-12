@@ -1,5 +1,5 @@
 import { Request } from "express";
-export interface customReq extends Request {
+export interface CustomReq extends Request {
   user?: {
     id: string;
     role: string;

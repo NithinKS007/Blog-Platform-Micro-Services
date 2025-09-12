@@ -12,7 +12,7 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
-    "@blog-platform-micro-services/common": "file:../common",
+    "@blog-platform-micro-services/common": "file:../common/index",
     "@types/express": "^5.0.3",
     "@types/jsonwebtoken": "^9.0.10",
     "cookie-parser": "^1.4.7",

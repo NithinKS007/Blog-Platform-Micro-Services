@@ -1,5 +1,5 @@
 {
-  "name": "user-service",
+  "name": "@blog-platform-micro-services/user-service",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -11,12 +11,18 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "@blog-platform-micro-services/common": "file:../common",
+    "@prisma/client": "^6.16.1",
     "@types/express": "^5.0.3",
     "express": "^5.1.0",
+    "inversify": "^7.9.1",
     "kafkajs": "^2.2.4",
-    "opossum": "^9.0.0",
-    "pg": "^8.16.3",
-    "pg-hstore": "^2.3.4",
-    "sequelize": "^6.37.7"
+    "prisma": "^6.16.1",
+    "reflect-metadata": "^0.2.2"
+  },
+  "devDependencies": {
+    "@types/node": "^24.3.1",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.9.2"
   }
 }

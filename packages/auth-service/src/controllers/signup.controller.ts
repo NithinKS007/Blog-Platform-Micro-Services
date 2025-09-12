@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { IAuthService, IBaseController } from "../interfaces/interfaces";
 import { inject, injectable } from "inversify";
 import { TYPES } from "../di/types";
-import { sendResponse } from "@blog-platform-micro-services/common";
+import { asyncHandler } from "@blog-platform-micro-services/common";
 
 @injectable()
 export class SignUpController implements IBaseController {
