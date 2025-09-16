@@ -5,6 +5,10 @@
     "outDir": "dist",
      "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
+     "baseUrl": "./",                                 
+     "paths": {
+      "@blog-platform-micro-services/*":["common/*"],
+      },
   },
   "include": ["src/**/*"]
 } 

@@ -21,7 +21,10 @@ export interface IAuthService {
 }
 
 export interface IMessageService {
-  consumeMessages<T>(topic: string, handler: MessageHandler<T>): Promise<void>;
+  consumeMessages<T>(data: {
+    topic: string;
+    handler: MessageHandler<T>;
+  }): Promise<void>;
   publishMessage<T>(params: PublishMessageParams<T>): Promise<void>;
   connectProducer(): Promise<void>;
   connectConsumer(): Promise<void>;
@@ -39,4 +42,11 @@ export interface PublishMessageParams<T> {
 
 export interface MessageHandler<T> {
   (payload: T): Promise<void> | void;
+}
+
+export interface ConsumerHandler {
+  correlationId: string;
+  status: string;
+  data?: object;
+  error?: string;
 }

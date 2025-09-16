@@ -3,7 +3,7 @@ import {
   IMessageService,
   MessageHandler,
   PublishMessageParams,
-} from "../interfaces/interfaces";
+} from "../interface/interfaces";
 import { EachMessagePayload, ProducerRecord, Message } from "kafkajs";
 import { GROUP_ID, kafkaConnect } from "../config/kafka.config";
 
@@ -41,11 +41,11 @@ export class KafkaService implements IMessageService {
     console.log(`[Kafka] Published to ${topic}: ${JSON.stringify(message)}`);
   }
 
-  async consumeMessages<T>(data: {
-    topic: string;
-    handler: MessageHandler<T>;
-  }): Promise<void> {
-    await this.consumer.subscribe({ topic: data.topic, fromBeginning: false });
+  async consumeMessages<T>(
+    topic: string,
+    handler: MessageHandler<T>
+  ): Promise<void> {
+    await this.consumer.subscribe({ topic, fromBeginning: false });
     await this.consumer.run({
       eachMessage: async ({ topic, partition, message }: EachMessagePayload) => {
         try {
@@ -54,7 +54,7 @@ export class KafkaService implements IMessageService {
             return;
           }
           const parsed: T = JSON.parse(message?.value.toString());
-          await data.handler(parsed);
+          await handler(parsed);
         } catch (err) {
           console.error(
             `[Kafka Consumer] Error processing message on topic "${topic}" [partition ${partition}]`,
@@ -63,6 +63,6 @@ export class KafkaService implements IMessageService {
         }
       },
     });
-    console.log(`[Kafka] Subscribed to topic: ${data.topic}`);
+    console.log(`[Kafka] Subscribed to topic: ${topic}`);
   }
 }
