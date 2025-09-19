@@ -10,3 +10,5 @@ export { notFoundMiddleware } from "./not.found.middleware";
 export { rateLimiter } from "./rate.limit.middleware";
 export { SqlBaseRepository } from "./sql.base.repository";
 export { createId } from "./createId";
+export {logger} from "./logger";
+// export { redisService } from "./redis.config";

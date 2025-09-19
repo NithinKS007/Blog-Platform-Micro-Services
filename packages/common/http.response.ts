@@ -1,18 +1,17 @@
 import { Response } from "express";
 
-export const sendResponse = (
+export const sendResponse = <T>(
   res: Response,
   statusCode: number,
-  data: any = null,
+  data: T | null = null,
   message: string
 ) => {
   const success = statusCode >= 200 && statusCode < 300;
-  const response = {
+
+  return res.status(statusCode).json({
     success,
     status: statusCode,
-    message: message,
+    message,
     data,
-  };
-
-  return res.status(statusCode).json(response);
+  });
 };
