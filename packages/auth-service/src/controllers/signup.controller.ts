@@ -12,7 +12,7 @@ export class SignUpController implements IBaseController {
   async handle(req: Request, res: Response): Promise<void> {
     const data = req.body;
     console.log("req", data);
-    const result = await this.authService.create(data);
+    const result = await this.authService.signUp(data);
     sendResponse(res, 201, result, "User created successfully");
   }
 }

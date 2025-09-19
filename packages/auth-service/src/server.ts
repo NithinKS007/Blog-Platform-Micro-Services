@@ -5,9 +5,8 @@ import helmet from "helmet";
 import dotenv from "dotenv";
 import { Request, Response } from "express";
 
-import { router } from "./routes/auth.routes";
+import { routerV1 } from "./routes/auth.routes";
 import {
-  asyncHandler,
   notFoundMiddleware,
   errorMiddleware,
   rateLimiter,
@@ -29,12 +28,12 @@ app.use(
   })
 );
 app.get("/", (req: Request, res: Response) => {
-  res.json({ message: "message send from server" });
+  res.json({ message: `message send from server ${process.env.PORT}` });
 });
 
 app.use(express.json({ limit: "50mb" }));
 app.use(cookieParser());
-app.use("/api/v1", router);
+app.use("/api", routerV1);
 app.use(notFoundMiddleware);
 app.use(errorMiddleware);
 

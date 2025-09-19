@@ -17,7 +17,7 @@ export interface IJwtService {
 }
 
 export interface IAuthService {
-  create(data: { name: string; email: string; password: string }): Promise<void>;
+  signUp(data: { name: string; email: string; password: string }): Promise<void>;
 }
 
 export interface IMessageService {
@@ -47,6 +47,6 @@ export interface MessageHandler<T> {
 export interface ConsumerHandler {
   correlationId: string;
   status: string;
-  data?: object;
+  data?: object; 
   error?: string;
 }

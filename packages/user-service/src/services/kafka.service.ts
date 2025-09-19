@@ -3,7 +3,7 @@ import {
   IMessageService,
   MessageHandler,
   PublishMessageParams,
-} from "../interface/interfaces";
+} from "../interface/interface";
 import { EachMessagePayload, ProducerRecord, Message } from "kafkajs";
 import { GROUP_ID, kafkaConnect } from "../config/kafka.config";
 
@@ -41,10 +41,11 @@ export class KafkaService implements IMessageService {
     console.log(`[Kafka] Published to ${topic}: ${JSON.stringify(message)}`);
   }
 
-  async consumeMessages<T>(
-    topic: string,
-    handler: MessageHandler<T>
-  ): Promise<void> {
+  async consumeMessages<T>(data: {
+    topic: string;
+    handler: MessageHandler<T>;
+  }): Promise<void> {
+    const { topic, handler } = data;
     await this.consumer.subscribe({ topic, fromBeginning: false });
     await this.consumer.run({
       eachMessage: async ({ topic, partition, message }: EachMessagePayload) => {

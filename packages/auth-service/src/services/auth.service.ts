@@ -15,7 +15,7 @@ export class AuthService implements IAuthService {
     @inject(TYPES.MessageService) private readonly messageService: IMessageService
   ) {}
 
-  async create(data: {
+  async signUp(data: {
     name: string;
     email: string;
     password: string;
@@ -23,17 +23,20 @@ export class AuthService implements IAuthService {
     const correlationId = createId().randomId;
     const { name, email, password } = data;
     if (!name || !email || !password) {
-
       throw new Error("Missing required fields.");
-      
     }
+
     await this.messageService.publishMessage({
       topic: "user-reg-event-req",
       message: {
         key: `USER_REGISTERED${correlationId}`,
-        value: JSON.stringify({ name, email, password }),
+        value: JSON.stringify({
+          status: "success",
+          data: { name, email, password },
+        }),
       },
     });
+
     await this.messageService.consumeMessages({
       topic: "user-reg-event-res",
       handler: this.handleRegEventRes.bind(this),
@@ -45,8 +48,8 @@ export class AuthService implements IAuthService {
 
     switch (message.status) {
       case "success":
-        // Example: save userId to DB or issue JWT
         console.log(`✅ User registered with ID: ${message.data}`);
+
         break;
 
       case "failed":
@@ -58,6 +61,4 @@ export class AuthService implements IAuthService {
         break;
     }
   }
-
-  async signIn(data: { email: string; password: string }): Promise<void> {}
 }

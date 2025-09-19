@@ -5,7 +5,9 @@
   "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc"
+    "build": "tsc",
+    "start": "node -r module-alias/register dist/config/index.js",
+    "dev": "nodemon -r tsconfig-paths/register src/config/index.ts"
   },
   "keywords": [],
   "author": "",
